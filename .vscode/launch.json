@@ -10,10 +10,10 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test.go",
+            "buildFlags": "-tags='imguifreetype'",
             "env": {
             },
             "args": [
-                "-tags='imguifreetype'"
             ]
          }
     ]

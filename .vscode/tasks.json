@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "go build -tags='imguifreetype' && ./pixelui_examples",
+            "command": "go build -tags='imguifreetype' -tags='glfw' && ./pixelui_examples",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

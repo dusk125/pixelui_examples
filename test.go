@@ -15,11 +15,11 @@ import (
 
 	"github.com/inkyblackness/imgui-go"
 
+	"github.com/dusk125/pixelui"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
 )
-import "github.com/dusk125/pixelui"
 
 func main() {
 	pixelgl.Run(run)
@@ -37,11 +37,14 @@ func run() {
 
 	context := imgui.CreateContext(nil)
 	defer context.Destroy()
-	ui := pixelui.NewUi(context)
+	ui := pixelui.NewUI(context)
 
 	imgui.StyleColorsDark()
+	// imgui.StyleColorsLight()
 
+	open := true
 	for !win.Closed() {
+		ui.NewFrame()
 		if win.JustReleased(pixelgl.KeyEscape) {
 			win.SetClosed(true)
 		}
@@ -49,7 +52,10 @@ func run() {
 		win.Clear(colornames.Skyblue)
 
 		imgui.NewFrame()
-		imgui.ShowDemoWindow(nil)
+
+		if open {
+			imgui.ShowDemoWindow(&open)
+		}
 		// imgui.Button("Hello")
 		// imgui.Button("Button 2")
 
