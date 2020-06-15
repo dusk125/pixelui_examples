@@ -63,7 +63,7 @@ func run() {
 
 	context := imgui.CreateContext(nil)
 	defer context.Destroy()
-	ui := pixelui.NewUI(context)
+	ui := pixelui.NewUI(context, win)
 
 	imgui.StyleColorsDark()
 	// imgui.StyleColorsLight()
@@ -86,6 +86,6 @@ func run() {
 		ui.Draw(win)
 
 		win.Update()
-		<-time.NewTimer(1 / 60).C
+		<-time.NewTimer(time.Second / time.Duration(60)).C
 	}
 }
