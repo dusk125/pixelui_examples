@@ -36,23 +36,6 @@ func run() {
 		log.Fatal(err)
 	}
 
-	// Currently, we NEED this shader in order for imgui to render properly.
-	win.Canvas().SetFragmentShader(`
-	#version 330 core
-	in vec4  vColor;
-	in vec2  vTexCoords;
-	in float vIntensity;
-
-	out vec4 fragColor;
-
-	uniform vec4 uColorMask;
-	uniform vec4 uTexBounds;
-	uniform sampler2D uTexture;
-	void main() {
-		fragColor *= vColor * texture(uTexture, vTexCoords).a;
-	}
-	`)
-
 	context := imgui.CreateContext(nil)
 	defer context.Destroy()
 	ui := pixelui.NewUI(context, win)
