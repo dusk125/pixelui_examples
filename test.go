@@ -10,17 +10,17 @@ struct ImDrawVert {
 */
 
 import (
-	"C"
 	"log"
 
 	"github.com/inkyblackness/imgui-go"
+
+	"time"
 
 	"github.com/dusk125/pixelui"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
 )
-import "time"
 
 func main() {
 	pixelgl.Run(run)
@@ -36,9 +36,8 @@ func run() {
 		log.Fatal(err)
 	}
 
-	context := imgui.CreateContext(nil)
-	defer context.Destroy()
-	ui := pixelui.NewUI(context, win)
+	ui := pixelui.NewUI(win)
+	defer ui.Destroy()
 
 	// imgui.StyleColorsLight()
 
