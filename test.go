@@ -10,6 +10,7 @@ struct ImDrawVert {
 */
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/inkyblackness/imgui-go"
@@ -49,6 +50,14 @@ func run() {
 		}
 
 		win.Clear(colornames.Skyblue)
+
+		if ui.JustPressed(pixelgl.MouseButtonLeft) {
+			fmt.Println("Left pressed")
+		}
+
+		if ui.JustReleased(pixelgl.MouseButtonLeft) {
+			fmt.Println("Left released")
+		}
 
 		if open {
 			imgui.ShowDemoWindow(&open)
