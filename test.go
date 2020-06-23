@@ -37,8 +37,10 @@ func run() {
 		log.Fatal(err)
 	}
 
-	ui := pixelui.NewUI(win)
+	ui := pixelui.NewUI(win, 0)
 	defer ui.Destroy()
+
+	ui.AddTTFFont("03b04.ttf", 16)
 
 	// imgui.StyleColorsLight()
 
