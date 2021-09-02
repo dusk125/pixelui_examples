@@ -13,13 +13,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/inkyblackness/imgui-go"
+	"github.com/dusk125/pixelutils"
 
-	"time"
+	_ "image/png"
 
 	"github.com/dusk125/pixelui"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/inkyblackness/imgui-go"
 	"golang.org/x/image/colornames"
 )
 
@@ -40,11 +41,15 @@ func run() {
 	ui := pixelui.NewUI(win, 0)
 	defer ui.Destroy()
 
-	ui.AddTTFFont("03b04.ttf", 16)
+	// Can also add a loaded sprite with 'ui.AddSprite'
+	spriteId, sprite := ui.AddSpriteFromFile("golang.png")
+	// spriteId, sprite := ui.AddSpriteFromFile("ship.png")
+
+	// ui.AddTTFFont("03b04.ttf", 16)
 
 	// imgui.StyleColorsLight()
 
-	open := true
+	ticker := pixelutils.NewTicker(60)
 	for !win.Closed() {
 		ui.NewFrame()
 		if win.JustReleased(pixelgl.KeyEscape) {
@@ -52,6 +57,7 @@ func run() {
 		}
 
 		win.Clear(colornames.Skyblue)
+		_, framerate := ticker.Tick()
 
 		if ui.JustPressed(pixelgl.MouseButtonLeft) {
 			fmt.Println("Left pressed")
@@ -61,15 +67,19 @@ func run() {
 			fmt.Println("Left released")
 		}
 
-		if open {
-			imgui.ShowDemoWindow(&open)
-		}
-		// imgui.Button("Hello")
-		// imgui.Button("Button 2")
+		imgui.ShowDemoWindow(nil)
+
+		imgui.Begin("Image Test")
+		imgui.Text(fmt.Sprintf("%.2f", framerate))
+		// Use the pixelui 'Image' helper function
+		ui.Image("golang", 0.5)
+		// Use the default imgui 'Image' function
+		imgui.Image(spriteId, pixelui.IVec(sprite.Picture().Bounds().Size().Scaled(0.25)))
+		imgui.End()
 
 		ui.Draw(win)
 
 		win.Update()
-		<-time.NewTimer(time.Second / time.Duration(60)).C
+		ticker.Wait()
 	}
 }
