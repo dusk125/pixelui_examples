@@ -45,7 +45,7 @@ func run() {
 	spriteId, sprite := ui.AddSpriteFromFile("golang.png")
 	// spriteId, sprite := ui.AddSpriteFromFile("ship.png")
 
-	// ui.AddTTFFont("03b04.ttf", 16)
+	ui.AddTTFFont("03b04.ttf", 16)
 
 	// imgui.StyleColorsLight()
 
