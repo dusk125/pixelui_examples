@@ -17,25 +17,32 @@ func main() {
 }
 
 type Thing struct {
-	String      string
-	Float32     float32
-	Float64     float64
-	Bool, Bool2 bool
-	Int         int
-	Int8        int8
-	Int16       int16
-	Int32       int32
-	Int64       int64
-	UInt        uint
-	UInt8       uint8
-	UInt16      uint16
-	UInt32      uint32
-	UInt64      uint64
-	Pointer     *Thing
-	Struct      struct {
+	String string
+	Bool   bool
+	Floats struct {
+		Float32 float32
+		Float64 float64
+	}
+	Ints struct {
+		Int   int
+		Int8  int8
+		Int16 int16
+		Int32 int32
+		Int64 int64
+	}
+	Uints struct {
+		UInt   uint
+		UInt8  uint8
+		UInt16 uint16
+		UInt32 uint32
+		UInt64 uint64
+	}
+	Pointer *Thing
+	Struct  struct {
 		String string
 	}
-	Chan chan interface{}
+	Chan  chan interface{}
+	Array []string
 }
 
 func Run() {
@@ -49,10 +56,15 @@ func Run() {
 		win    *pixelgl.Window
 		ui     *pixelui.UI
 		thing  = Thing{
-			String:  "Hello there",
-			Float64: 1.5,
-			Bool:    false,
-			Bool2:   true,
+			String: "Hello there",
+			Floats: struct {
+				Float32 float32
+				Float64 float64
+			}{
+				Float64: 1.5,
+			},
+			Bool:  false,
+			Array: []string{"One", "Two", "Three"},
 		}
 	)
 
