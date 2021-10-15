@@ -10,7 +10,6 @@ struct ImDrawVert {
 */
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/dusk125/pixelutils"
@@ -20,7 +19,6 @@ import (
 	"github.com/dusk125/pixelui"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-	"github.com/inkyblackness/imgui-go"
 	"golang.org/x/image/colornames"
 )
 
@@ -29,6 +27,8 @@ func main() {
 }
 
 func run() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	cfg := pixelgl.WindowConfig{
 		Title:  "PixelUi Test",
 		Bounds: pixel.R(0, 0, 1920, 1080),
@@ -38,46 +38,46 @@ func run() {
 		log.Fatal(err)
 	}
 
-	ui := pixelui.NewUI(win, 0)
-	defer ui.Destroy()
+	pixelui.Init(win, pixelui.NO_DEFAULT_FONT)
 
 	// Can also add a loaded sprite with 'ui.AddSprite'
-	spriteId, sprite := ui.AddSpriteFromFile("golang.png")
+	// spriteId, sprite := ui.AddSpriteFromFile(0, "golang.png")
 	// spriteId, sprite := ui.AddSpriteFromFile("ship.png")
 
-	ui.AddTTFFont("03b04.ttf", 16)
+	// ui.Packer().InsertFromFile(0, "golang.png", rectpack.AddInsertFlipped)
 
-	// imgui.StyleColorsLight()
+	// ui.AddTTFFont("03b04.ttf", 16)
 
-	ticker := pixelutils.NewTicker(60)
+	ticker := pixelutils.NewTicker(1000)
 	for !win.Closed() {
-		ui.NewFrame()
+		pixelui.NewFrame()
 		if win.JustReleased(pixelgl.KeyEscape) {
 			win.SetClosed(true)
 		}
 
 		win.Clear(colornames.Skyblue)
 		_, framerate := ticker.Tick()
+		_ = framerate
 
-		if ui.JustPressed(pixelgl.MouseButtonLeft) {
-			fmt.Println("Left pressed")
+		// ui.Packer().DrawSub(0, pixel.IM.Moved(win.Bounds().Center()))
+		// ui.Packer().Draw(win)
+
+		// imgui.ShowDemoWindow(nil)
+
+		pixelui.Begin("Image Test")
+		pixelui.Text("This is a test")
+		pixelui.Textf("%.2f", framerate)
+
+		if pixelui.Button("I am a button") {
+			log.Println("A clicky button")
 		}
-
-		if ui.JustReleased(pixelgl.MouseButtonLeft) {
-			fmt.Println("Left released")
-		}
-
-		imgui.ShowDemoWindow(nil)
-
-		imgui.Begin("Image Test")
-		imgui.Text(fmt.Sprintf("%.2f", framerate))
 		// Use the pixelui 'Image' helper function
-		ui.Image("golang", 0.5)
+		// ui.Image(0, 0.5)
 		// Use the default imgui 'Image' function
-		imgui.Image(spriteId, pixelui.IVec(sprite.Picture().Bounds().Size().Scaled(0.25)))
-		imgui.End()
+		// imgui.Image(0, pixelui.IVec(sprite.Picture().Bounds().Size().Scaled(0.25)))
+		pixelui.End()
 
-		ui.Draw(win)
+		pixelui.Draw(win, pixel.IM)
 
 		win.Update()
 		ticker.Wait()
