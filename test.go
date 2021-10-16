@@ -13,6 +13,7 @@ import (
 	"log"
 
 	"github.com/dusk125/pixelutils"
+	"github.com/dusk125/pixelutils/packer"
 
 	_ "image/png"
 
@@ -22,11 +23,19 @@ import (
 	"golang.org/x/image/colornames"
 )
 
+const (
+	ImageGolang int = iota
+)
+
 func main() {
 	pixelgl.Run(run)
 }
 
 func run() {
+	var (
+		err error
+	)
+
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	cfg := pixelgl.WindowConfig{
@@ -39,6 +48,17 @@ func run() {
 	}
 
 	pixelui.Init(win, pixelui.NO_DEFAULT_FONT)
+
+	packer := packer.New()
+	pixelui.AddImagePacker(packer)
+
+	if err = packer.InsertFromFile(ImageGolang, "golang.png"); err != nil {
+		log.Fatalln(err)
+	}
+
+	if err = packer.Pack(); err != nil {
+		log.Fatalln(err)
+	}
 
 	// Can also add a loaded sprite with 'ui.AddSprite'
 	// spriteId, sprite := ui.AddSpriteFromFile(0, "golang.png")
@@ -71,6 +91,8 @@ func run() {
 		if pixelui.Button("I am a button") {
 			log.Println("A clicky button")
 		}
+
+		pixelui.Image(ImageGolang, 0.1)
 		// Use the pixelui 'Image' helper function
 		// ui.Image(0, 0.5)
 		// Use the default imgui 'Image' function
