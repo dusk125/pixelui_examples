@@ -7,7 +7,7 @@ require (
 	github.com/dusk125/pixelutils v1.0.0
 	github.com/faiface/pixel v0.11.0-beta
 	github.com/inkyblackness/imgui-go v1.12.0
-	golang.org/x/image v0.0.0-20210607152325-775e3b0c77b9
+	golang.org/x/image v0.5.0
 )
 
 replace github.com/dusk125/pixelui => ../pixelui
